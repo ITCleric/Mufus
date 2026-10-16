@@ -1,0 +1,71 @@
+Mufus 1.0.1 — native USB-tool voor macOS
+
+INSTALLEREN
+Open de DMG en sleep Mufus naar Programma's.
+De app bevat native Apple Silicon- en Intel-code en is gebouwd voor macOS 12+.
+De uitvoering en interface zijn gecontroleerd op deze Apple Silicon-Mac met
+macOS 26.4.1; de Intel-code is uitgevoerd onder Rosetta. Andere Macs en oudere
+macOS-versies zijn niet fysiek getest.
+
+De app is lokaal ad-hoc ondertekend, zonder Apple Developer ID of notarization.
+Bij verspreiding naar andere Macs kan Gatekeeper de eerste opening blokkeren.
+
+GEBRUIK
+1. Sluit een USB-stick aan en klik op de vernieuwknop.
+2. Kies Image schrijven, Windows USB of Formatteren.
+3. Selecteer het image of de gewenste formatteeropties.
+4. Klik op Start schrijven of Formatteer USB.
+5. Controleer de exacte USB-schijf in de wisbevestiging.
+6. Geef macOS-beheerdersrechten wanneer macOS daarom vraagt.
+7. Wacht op de melding dat de taak gereed is en de USB veilig is verwijderd.
+
+IMAGE SCHRIJVEN
+Schrijft hybride Linux-ISO's en onbewerkte IMG/DD/BIN-bestanden.
+De partitie-indeling komt uit het image. De app vergelijkt de geschreven
+image-inhoud met SHA-256 en controleert ook of de bron niet is gewijzigd.
+Gecomprimeerde DMG's en niet-hybride optische ISO's worden geweigerd.
+
+WINDOWS USB
+Bedoeld voor Windows 10/11-installatiemedia voor UEFI-pc's.
+De ISO moet efi/boot/bootx64.efi of bootaa64.efi bevatten, plus boot.wim en
+install.wim of install.esd. Mufus gebruikt FAT32 met MBR of GPT.
+install.wim groter dan 4 GiB wordt met de meegeleverde wimlib opgesplitst.
+Andere bestanden groter dan de FAT32-limiet worden vóór het wissen geweigerd.
+Gekopieerde bestanden worden met hashes gecontroleerd; gesplitste WIM-sets
+worden met wimlib geverifieerd. Dit maakt een Windows-installatiestick voor
+een passend doelapparaat; het maakt Windows niet native opstartbaar op een
+Apple Silicon-Mac.
+
+FORMATTEREN
+Ondersteunt FAT32, exFAT en Mac OS uitgebreid met MBR of GPT.
+Alle gegevens op de gekozen USB-schijf worden gewist.
+
+AFBAKENING EN VALIDATIE
+Dit is een nieuwe native implementatie na REA/Ghidra-inspectie van de
+aangeleverde Rufus-EXE en controle van de openbare Rufus 4.15-broncode.
+Het is geen volledige port van alle Rufus-functies. Deze versie bevat geen
+Windows To Go, FreeDOS, installatie van legacy BIOS-bootloaders, NTFS/ext/ReFS-
+formattering, persistentie, bad-block-tests, ISO-downloads of Windows 11/OOBE-
+aanpassingen. Die functies zijn niet als werkend voorgesteld in de interface.
+
+Automatische tests controleren schrijven, readback, corruptiedetectie,
+USB-toelating, schijfidentiteit, bronvalidatie en Windows-imageherkenning.
+Alle zes combinaties van FAT32, exFAT en Mac OS uitgebreid met MBR en GPT
+zijn getest op nieuw aangemaakte tijdelijke schijfimages. De volledige raw-
+schrijfroute en Windows-kopieerroute zijn eveneens doorlopen. De WIM-splitstest
+gebruikt verlaagde groottedrempels met een klein maar echt WIM-archief.
+WIM-splitsing en verificatie zijn met een test-WIM gecontroleerd.
+Er is geen fysieke USB gewist en er is geen echte opstarttest uitgevoerd.
+Volledige Rufus-pariteit en universele hardwarecompatibiliteit zijn dus niet
+aangetoond.
+
+VORMGEVING
+De aangeleverde USB-afbeelding wordt gebruikt voor het app-icoon, de kop van
+het venster, het Dock en het logboek. De drie tabs en instellingenblokken
+vullen de beschikbare breedte. Het venster kan worden vergroot en verkleind.
+
+BRONCODE
+De meegeleverde Mufus-broncode.zip bevat de app, buildinstructies en de
+bijpassende wimlib-broncode. Mufus-broncode: GPL-3.0-or-later.
+wimlib: zie de bijbehorende COPYING-bestanden. Licentiebestanden staan in de
+app-resources; de interface toont geen voorwaarden- of licentievenster.

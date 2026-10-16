@@ -1,0 +1,15 @@
+/analysis/
+/build/
+/dist/
+/tools/*
+!/tools/wimlib-1.14.5.tar.gz
+/Mufus-arm64
+/Mufus-x86_64
+/Resources/Mufus.iconset/
+/Tests/integration-test
+/Tests/wim-input/
+/Tests/*.wim
+/Tests/*.swm
+*.dmg
+.DS_Store
+*.swp

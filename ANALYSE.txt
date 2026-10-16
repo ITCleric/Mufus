@@ -1,0 +1,49 @@
+REA-analyse — 16 oktober 2026
+
+Officiële bronnen:
+https://rea.tools/
+https://github.com/morluto/rea
+https://github.com/pbatard/rufus/tree/v4.15
+https://wimlib.net/
+
+Gebruikte tools:
+REA 6.5.0, Ghidra 12.1.4, Temurin JDK 21, UPX 5.2.1.
+REA is lokaal in tools/ geïnstalleerd en via de CLI gebruikt. Er is geen
+blijvende wijziging aan de globale Codex-MCP-configuratie gedaan.
+
+Origineel:
+rufus-4.15.exe
+1.989.992 bytes, Windows PE32+ x86-64.
+SHA-256: 84c8a437f8af89257524478489e5c85f1edf25f761d299e2bcde46ac0afbe106
+Het origineel is ongewijzigd gebleven.
+
+REA inspect-artifact legde de identiteit vast. De PE-resource-parser kon de
+ingepakte resource-indeling niet verwerken; dit is geen geslaagde analyse
+van alle resources. inspect-binary-layout ondersteunde deze macOS-host niet.
+
+REA analyze met Ghidra vond UPX0/UPX1, 6 procedures en 36 strings: dit betreft
+hoofdzakelijk de uitpakcode. Daarom is een kopie met UPX -d uitgepakt.
+
+Uitgepakte kopie:
+5.422.952 bytes.
+SHA-256: 5cfec8255ad5a11883fafdf54ee064e44d218de6ab80b94375bc5b57b34c5325
+REA/Ghidra: 3.227 procedures, 5.371 strings, 9 segmenten.
+REA search vond onder meer KERNEL32.DLL::DeviceIoControl, WriteFile,
+CreateFileW en NTDLL.DLL::NtWriteFile/NtDeviceIoControlFile.
+
+Deze waarnemingen onderbouwen de Windows-afhankelijkheid, geen volledige
+reconstructie van iedere functie. De openbare v4.15-bestanden rufus.c,
+format.c, drive.c en rufus.rc zijn gebruikt om het gedrag te controleren.
+Er is geen volledige decompilatie of equivalentiebewijs van Rufus uitgevoerd.
+
+Native omzetting:
+Windows DeviceIoControl/drivebeheer -> macOS diskutil en schijfmetadata.
+Windows WriteFile -> Darwin open/read/write/fsync en SHA-256-readback.
+Windows-imagevoorbereiding -> alleen-lezen hdiutil-mount, FAT32-bestandskopie,
+wimlib-splitsing en verificatie.
+
+Bewijsbestanden staan in analysis/:
+rea-artifact.json, rea-native.json, rea-unpacked.json,
+rea-disk-functions.json en de gebonden REA-snapshots.
+De publieke validatiestatus en reproduceerbare tests staan in
+docs/VALIDATION.md en test.sh. Ruwe onderzoekslogs worden niet gepubliceerd.

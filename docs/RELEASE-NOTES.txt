@@ -1,0 +1,24 @@
+Mufus 1.0.1 — first public preview
+
+Mufus is a native macOS USB utility, built with Swift and SwiftUI.
+Write hybrid Linux ISOs and raw images, prepare Windows UEFI installation
+media with automatic WIM splitting, or format external USB drives.
+
+Includes:
+- Universal Apple Silicon and Intel app, targeting macOS 12+.
+- Purple USB icon and a resizable interface with full-width tabs.
+- SHA-256 readback and copied-file verification.
+- Physical-USB admission, disk identity rechecks and explicit erase confirmation.
+- Bundled wimlib, matching source and license notices.
+
+Validation:
+31 regression checks passed on Apple Silicon and the Intel executable under
+Rosetta. All six format combinations, the full raw-write pipeline, and Windows
+ISO workflows with and without WIM splitting passed on disposable disk images.
+
+This is an early preview. Real USB boot testing and older macOS hardware
+validation remain outstanding. The app is ad-hoc signed and not notarized by
+Apple. It is an independent app, not an official or feature-complete Rufus port.
+
+Open the universal DMG and drag Mufus to Applications. Read README.md and
+docs/VALIDATION.md before use. Writing or formatting erases the selected USB.

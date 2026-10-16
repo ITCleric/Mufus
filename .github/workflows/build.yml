@@ -1,0 +1,17 @@
+name: macOS build and self-tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Build universal app and run self-tests
+        run: bash build.sh
+      - name: Verify local signatures
+        run: codesign --verify --deep --strict --verbose=2 build/Mufus.app
